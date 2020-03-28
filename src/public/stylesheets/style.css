@@ -1,0 +1,34 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #fafafa !important;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1, h2 {
+  margin-top: 5% !important;
+  text-align: center;
+}
+
+h1:first-child {
+  margin-top: 0;
+}
+
+.form-label {
+  margin-right: 1rem;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 10%;
+}
+
+#conclusion-hidden-until {
+  display: none;
+}
+
+#familydoctor-hidden-until {
+  display: none;
+}

@@ -1,0 +1,268 @@
+extends layout
+
+block append header
+block content
+  .container
+    .row.justify-content-center
+      .col-lg-8
+        a.btn.btn-secondary.mt-4(role="button" href="/") Voltar
+        if failure
+          .alert.alert-danger.text-center.mt-4 Ocorreu um erro!
+        if exists
+          .alert.alert-warning.text-center.mt-4 Submissão falhou pois inclui elementos duplicados. Verifique novamente os dados.
+        if redirected
+          .alert.alert-success.text-center.mt-4 Obrigado pela submissão
+        h1 Linha Covid-19 - ACES #{ACES}
+        h2 Dados Pessoais do Doente
+        form(method="POST" action="/submit" novalidate).needs-validation#main-form
+          
+          div(
+            class="form-group"
+          )
+            label(for="Name") Nome do paciente
+            input(
+              type="text"
+              name="Name"
+              class="form-control"
+              placeholder="António Manuel da Silva Tavares"
+              required
+            )
+
+          div(
+            class="form-group"
+          )
+
+            label(for="Identification") Número de utente
+            input(
+              type="number"
+              class="form-control"
+              name="Identification"
+              placeholder="128593758"
+              required
+            )
+
+          div(
+            class="form-group"
+          )
+            label(for="FamilyDoctor") Médico de Família
+            select(
+              class="custom-select form-control"
+              name="FamilyDoctor"
+              id="FamilyDoctor"
+              onChange="addField()"
+              required
+            )
+              option(selected disabled value="") Escolha
+              each val, index in medics
+                option(value=n)= val
+              option(value="outro") Outro
+
+          .form-group.row#familydoctor-hidden-until
+            .col-6.row.m-auto
+              .alert.alert-info.text-center.mt-4 Estes dados vão ficar guardados para as submissões seguintes. Por favor verifique que estão correctos antes de submeter.
+            .col-6.row.m-auto
+              label(for="MedicName") Nome do Médico
+              input.form-control.optional-until(
+                type="text"
+                name="MedicName"
+              )
+            .col-6.row.m-auto
+              label(for="MedicEmail") Email do Médico
+              input.form-control.optional-until(
+                type="email"
+                name="MedicEmail"
+              )
+            .col-6.row.m-auto
+              label(for="Service") Serviço
+              select.optional-until(
+                class="custom-select form-control"
+                name="Service"
+              )
+                option(selected disabled value="") Escolha
+                each val, index in services
+                  option(value=n)= val
+
+          div(
+            class="form-group"
+          )
+
+            label(for="Address") Morada
+            input(
+              type="text",
+              class="form-control"
+              name="Address"
+            )
+
+          div(
+            class="form-group row"
+          )
+            div(
+              class="col"
+            )
+              label(for="Email") Email
+              input(
+                type="email",
+                class="form-control"
+                name="Email"
+                placeholder="antonio@tavares.com"
+              )
+            div(
+              class="col"
+            )
+              label(for="Phone") Telefone
+              input(
+                type="number",
+                class="form-control"
+                name="Phone"
+                placeholder="92749273"
+                required
+              )
+
+          h2 Clínica
+          div(
+            class="form-group row"
+          )
+            div(
+              class="col"
+            )
+              label(for="DateSymptomsStarted") Data de Início dos Sintomas
+              input(
+                type="date",
+                class="form-control"
+                name="DateSymptomsStarted"
+                required
+              )
+            div(
+              class="col"
+            )
+              label(for="InitialSymptom") Sintoma Inaugural
+              input(
+                type="text",
+                class="form-control"
+                name="InitialSymptom"
+                required
+              )
+
+          div(
+            class="form-group row"
+          )
+            div(
+              class="col"
+            )
+              label(for="SymptomEvolution") Evolução dos Sintomas
+              select(
+                class="custom-select form-control"
+                name="SymptomEvolution"
+              )
+                option(selected disabled value="") Escolha
+                each val, index in symptoms
+                  option(value=n)= val
+            div(
+              class="col"
+            )
+              label(for="OtherSymptoms") Outros
+              input(
+                type="text",
+                class="form-control"
+                name="OtherSymptoms"
+              )
+
+
+          h2 Epidemiologia
+          div(
+            class="form-group"
+          )
+            label(for="TripHistory") História de viagem ou residência em áreas endémicas nos 14 dias anteriores ao início dos sintomas
+            textarea(
+              type="text",
+              class="form-control"
+              name="TripHistory"
+            )
+          div(
+            class="form-group row"
+          )
+            div(
+              class="col"
+            )
+              label Contacto com caso confirmado de infecção por SARS-CoV-2
+              div(
+                class="form-check"
+              )
+                input(
+                  class="form-check-input"
+                  type="radio"
+                  name="ContactWithCovid"
+                  id="Sim"
+                  value="true"
+                  required
+                )
+                label(class="form-check-label" for="Sim") Sim
+              div(
+                class="form-check"
+              )
+                input(
+                  class="form-check-input"
+                  type="radio"
+                  name="ContactWithCovid"
+                  id="Nao"
+                  value="false"
+                  checked
+                  required
+                )
+                label(class="form-check-label" for="Nao") Nao
+
+            div(
+              class="col"
+            )
+              label(for="DateOfContactCovid") Data
+              input(
+                type="date",
+                class="form-control"
+                name="DateOfContactCovid"
+              )
+
+
+          h1 Conclusão
+          div(
+            class="form-group"
+          )
+              label(for="Conclusion") Escolha
+              select(
+                class="custom-select form-control"
+                name="Conclusion"
+                id="Conclusion"
+                onChange="showProcedure()"
+                required
+              )
+                option(selected disabled value="") Escolha
+                option(value="SemSuspeita") Sem suspeita / baixo grau de suspeita
+                option(value="Suspeita") Suspeita clínica
+                option(value="SuspeitaGrave") Suspeita clínica e sinais de gravidade
+          .form-group#conclusion-hidden-until
+            .col-6.row.m-auto.justify-content-center
+              #procedure-field 
+          div(
+            class="form-group row"
+          )
+            div(
+              class="col"
+            )
+              label(for="Medic") O médico
+              input(
+                type="text",
+                class="form-control"
+                name="Medic"
+                required
+              )
+
+          div(
+            class="form-group row justify-content-center"
+          )
+            button.btn.btn-primary.btn-block.mt-4#btnSubmit(type="submit") Submeter
+      
+
+block footer
+  .footer
+    p #{footer1}
+    p #{footer2}
+    p #{footer3}

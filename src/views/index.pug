@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .container
+    .row.justify-content-center.mt-4
+      p.text-center Esta pequena aplicação web foi desenvolvida por José Pedro Sousa afim de ajudar na comunicação entre médicos, relativamente a casos suspeitos de infecção por Covid-19.
+      br
+      p.text-center Qualquer dificuldade na sua utilização deverá ser <a href="mailto:jpedrosous@gmail.com">comunicada via e-mail </a>
+    .row.justify-content-center
+      if authenticated
+        a(
+          class="btn btn-primary"
+          role="button"
+          href="/logout"
+        ) Logout
+        a(
+          class="btn btn-primary ml-4"
+          role="button"
+          href="/form"
+        ) Formulário
+      else
+        a(
+          class="btn btn-primary"
+          role="button"
+          href="/login"
+        ) Login
+      
+
+block footer
+
+    div(class="container footer")
+      p #{footer1}
+      p #{footer2}
+      p #{footer3}
