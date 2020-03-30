@@ -144,23 +144,14 @@ module.exports = (app : any) => {
 
       await Submission.create(submissionData)
 
-      let templateId = process.env.EMAILTEMPLATE_NOTSUSPECT;
-      if (req.body.Conclusion === IConclusion.Suspeita) {
-        templateId = process.env.EMAILTEMPLATE_SUSPECT
-      } else if (req.body.Conclusion === IConclusion.SuspeitaGrave) {
-        templateId = process.env.EMAILTEMPLATE_SEVERESUSPECT
-      }
-
-
       const msg = {
         to: emailToSend,
         cc: process.env.ENVIRONMENT === "production" ? serviceEmail : process.env.TEST_EMAIL,
         from: process.env.FROM_EMAIL,
         subject: 'Covid-19. Nova submissão',
-        template_id: templateId,
+        template_id: process.env.EMAILTEMPLATE,
         dynamic_template_data: submissionData
       };
-      console.log(submissionData);
 
       sgMail.send(msg);
       return res.redirect("/form?redirected=true");
