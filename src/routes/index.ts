@@ -113,6 +113,12 @@ module.exports = (app : any) => {
         
       }
 
+      let symptomEvolution : Array<string> = [];
+      for (let symptom in ISymptoms) {
+        if (req.body[symptom] === "on") {
+          symptomEvolution.push(symptom)
+        }
+      }
 
       const submissionData = {
         Name: req.body.Name,
@@ -124,7 +130,7 @@ module.exports = (app : any) => {
         Clinical: {
           DateSymptomsStarted: req.body.DateSymptomsStarted,
           InitialSymptom: req.body.InitialSymptom,
-          SymptomEvolution: req.body.SymptomEvolution,
+          SymptomEvolution: symptomEvolution,
           OtherSymptoms: req.body.OtherSymptoms
         },
         Epidemiology: {

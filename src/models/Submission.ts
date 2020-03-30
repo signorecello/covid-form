@@ -28,10 +28,7 @@ const SubmissionSchema = new mongoose.Schema({
           required: true
         },
         InitialSymptom: String,
-        SymptomEvolution: {
-            type: String,
-            enum: ["Tosse", "Febre", "Cefaleias", "Mialgias", "Fraqueza", "Dispneia", "Outros"]
-        },
+        SymptomEvolution: [String],
         OtherSymptoms: String
     },
     Epidemiology: {
