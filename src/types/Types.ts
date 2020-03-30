@@ -6,8 +6,7 @@ export enum ISymptoms {
     "Cefaleias" = "Cefaleias",
     "Mialgias" = "Mialgias",
     "Fraqueza" = "Fraqueza",
-    "Dispneia" = "Dispneia",
-    "Outros" = "Outros"
+    "Dispneia" = "Dispneia"
 }
 
 export enum IConclusion {

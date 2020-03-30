@@ -93,7 +93,6 @@ module.exports = (app : any) => {
         // then we'll try to find the doctor using the supplied name/email
         const medicModel : any = await Medic.findOne({$or: [ {name: req.body.MedicName}, {email: req.body.MedicEmail}] })
         
-        console.log(medicModel)
         // if not found, that's because he really doesn't exist so we need to create it
         if (!medicModel) {
           await Medic.create({
@@ -113,6 +112,12 @@ module.exports = (app : any) => {
         
       }
 
+      let symptomEvolution : Array<string> = [];
+      for (let symptom in ISymptoms) {
+        if (req.body[symptom] === "on") {
+          symptomEvolution.push(symptom)
+        }
+      }
 
       const submissionData = {
         Name: req.body.Name,
@@ -124,7 +129,7 @@ module.exports = (app : any) => {
         Clinical: {
           DateSymptomsStarted: req.body.DateSymptomsStarted,
           InitialSymptom: req.body.InitialSymptom,
-          SymptomEvolution: req.body.SymptomEvolution,
+          SymptomEvolution: symptomEvolution,
           OtherSymptoms: req.body.OtherSymptoms
         },
         Epidemiology: {
@@ -139,22 +144,14 @@ module.exports = (app : any) => {
 
       await Submission.create(submissionData)
 
-      let templateId = process.env.EMAILTEMPLATE_NOTSUSPECT;
-      if (req.body.Conclusion === IConclusion.Suspeita) {
-        templateId = process.env.EMAILTEMPLATE_SUSPECT
-      } else if (req.body.Conclusion === IConclusion.SuspeitaGrave) {
-        templateId = process.env.EMAILTEMPLATE_SEVERESUSPECT
-      }
-
       const msg = {
         to: emailToSend,
         cc: process.env.ENVIRONMENT === "production" ? serviceEmail : process.env.TEST_EMAIL,
         from: process.env.FROM_EMAIL,
         subject: 'Covid-19. Nova submissão',
-        template_id: templateId,
+        template_id: process.env.EMAILTEMPLATE,
         dynamic_template_data: submissionData
       };
-      console.log(msg);
 
       sgMail.send(msg);
       return res.redirect("/form?redirected=true");
