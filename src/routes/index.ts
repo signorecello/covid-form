@@ -93,7 +93,6 @@ module.exports = (app : any) => {
         // then we'll try to find the doctor using the supplied name/email
         const medicModel : any = await Medic.findOne({$or: [ {name: req.body.MedicName}, {email: req.body.MedicEmail}] })
         
-        console.log(medicModel)
         // if not found, that's because he really doesn't exist so we need to create it
         if (!medicModel) {
           await Medic.create({
@@ -152,6 +151,7 @@ module.exports = (app : any) => {
         templateId = process.env.EMAILTEMPLATE_SEVERESUSPECT
       }
 
+
       const msg = {
         to: emailToSend,
         cc: process.env.ENVIRONMENT === "production" ? serviceEmail : process.env.TEST_EMAIL,
@@ -160,7 +160,7 @@ module.exports = (app : any) => {
         template_id: templateId,
         dynamic_template_data: submissionData
       };
-      console.log(msg);
+      console.log(submissionData);
 
       sgMail.send(msg);
       return res.redirect("/form?redirected=true");
