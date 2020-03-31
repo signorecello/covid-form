@@ -14,7 +14,7 @@ block content
           .alert.alert-success.text-center.mt-4 Obrigado pela submissão
         h1 Linha Covid-19 - ACES #{ACES}
         h2 Dados Pessoais do Doente
-        form(method="POST" action="/submit" novalidate).needs-validation#main-form
+        form( novalidate).needs-validation#main-form
           
           div(
             class="form-group"
@@ -35,6 +35,7 @@ block content
             input(
               type="number"
               class="form-control"
+              id="Identification"
               name="Identification"
               required
             )
