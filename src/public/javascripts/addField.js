@@ -50,8 +50,9 @@ $(document).ready(function(){
                 printable: "main-form",
                 type: "html",
                 onPrintDialogClose: () => {
-                    $.post(`/submit`, formArray)
-                    window.location.replace("/form")
+                    $.post(`/submit`, formArray, () => 
+                        location.reload(true)
+                    )
                 }
             })
         }
