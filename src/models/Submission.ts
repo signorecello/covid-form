@@ -5,12 +5,10 @@ import mongoose, { Mongoose, Types } from "mongoose"
 const SubmissionSchema = new mongoose.Schema({
     Name: {
         type: String,
-        unique: true,
         required: true
     },
     Identification: {
         type: String,
-        unique: true,
         required: true
     },
     FamilyDoctor: {

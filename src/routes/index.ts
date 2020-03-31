@@ -34,6 +34,22 @@ module.exports = (app : any) => {
     res.render("index", { authenticated: req.isAuthenticated() })
   })
 
+  app.post("/validate/isduplicate", async function(req : Request, res : Response, next: NextFunction) {
+    try {
+      const duplicate : any = await Submission.findOne({
+        Identification: req.body.Identification
+      })
+      if (duplicate) {
+        return res.status(200).json(duplicate.Date);
+      } else {
+        return res.status(200).json(false);
+      }
+    } catch(err) {
+      console.log(err);
+      return res.status(500).json(err)
+    }
+  })
+
   app.get('/form', requiresAuth(), async function(req : Request, res : Response, next: NextFunction) {
     let medicModels = await Medic.find({});
     let medics = medicModels.map((medicModel : IMedic) => medicModel.name)

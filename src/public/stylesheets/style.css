@@ -32,3 +32,7 @@ h1:first-child {
 #familydoctor-hidden-until {
   display: none;
 }
+
+#already-submitted {
+  display: none;
+}

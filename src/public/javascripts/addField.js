@@ -54,27 +54,21 @@ $(document).ready(function(){
                     window.location.replace("/form")
                 }
             })
-
-
         }
-
-
         form.addClass('was-validated');
-        
     });
 
     $("#Identification").keyup(function(event) {
-        $.post(`/validate/identification`, 
+        $.post(`/validate/isduplicate`, 
         {
             Identification: event.target.value
         }, function(data, status) {
-            let input = document.getElementById("Identification");
+            let warning = document.getElementById("already-submitted");
             if (data) {
-                input.classList.remove("is-invalid");
-                input.classList.add("is-valid");
+                warning.style.display = "block";
+                warning.innerHTML = `Este paciente contactou esta linha em ${moment(data).format('MMMM Do YYYY, h:mm:ss a')}`
             } else {
-                input.classList.remove("is-valid");
-                input.classList.add("is-invalid");
+                warning.style.display = "none";
             }
         })
     })
