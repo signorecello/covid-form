@@ -12,3 +12,7 @@ ENVIRONMENT=development/testing/production
 EMAILTEMPLATE=d-whatever
 FROM_EMAIL=some_email@gmail.com
 TEST_EMAIL=some_email@gmail.com
+SMTP_NAME=smtp.something
+SMTP_PORT=587
+MAIL_USERNAME=username
+MAIL_PASSWORD=password

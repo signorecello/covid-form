@@ -4,6 +4,8 @@ import { ISubmission, ISymptoms, IMedic, IConclusion, IService }from "../types/T
 import { Medic } from "../models/Medic";
 import { Submission } from "../models/Submission";
 import { Service } from "../models/Service";
+import { sendMail } from "../services/email"
+
 
 const { auth, requiresAuth } = require('express-openid-connect');
 
@@ -165,11 +167,16 @@ module.exports = (app : any) => {
         cc: process.env.ENVIRONMENT === "production" ? serviceEmail : process.env.TEST_EMAIL,
         from: process.env.FROM_EMAIL,
         subject: 'Covid-19. Nova submissão',
-        template_id: process.env.EMAILTEMPLATE,
-        dynamic_template_data: submissionData
+        // template_id: process.env.EMAILTEMPLATE,
+        // dynamic_template_data: submissionData
       };
 
-      sgMail.send(msg);
+      sendMail(msg, submissionData)
+
+
+
+
+      // sgMail.send(msg);
       return res.redirect("/form?redirected=true");
  
     } catch (err) {
