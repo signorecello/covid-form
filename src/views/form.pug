@@ -62,9 +62,12 @@ block content
               .alert.alert-info.text-center.mt-4 Estes dados vão ficar guardados para as submissões seguintes. Por favor verifique que estão correctos antes de submeter.
             .col-6.row.m-auto
               label(for="MedicName") Nome do Médico
-              input.form-control.optional-until(
-                type="text"
-                name="MedicName"
+              .input-group
+                .input-group-prepend
+                  .input-group-text Dr.
+                input.form-control.optional-until(
+                  type="text"
+                  name="MedicName"
               )
             .col-6.row.m-auto
               label(for="MedicEmail") Email do Médico
