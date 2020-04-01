@@ -60,7 +60,6 @@ app.use(function(err: { message: any; status: any; }, req : Request, res : Respo
   res.render('error');
 });
 
-
 console.log("Listening on port" + process.env.PORT);
 app.listen(process.env.PORT);
 
